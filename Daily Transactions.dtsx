@@ -1,0 +1,2064 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="9/11/2019 10:31:43 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="SUN87"
+  DTS:CreatorName="golden\efelix"
+  DTS:DTSID="{3C179C66-E428-41B6-AE57-251A06495903}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.1301.433"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="Sales"
+  DTS:PackageType="5"
+  DTS:VersionBuild="84"
+  DTS:VersionGUID="{72D794EE-8275-4938-9099-D78CE054FF5S}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[Excel Connection Manager]"
+      DTS:CreationName="EXCEL"
+      DTS:DelayValidation="True"
+      DTS:DTSID="{A73367AW-010B-31CE-BAF7-2B0FD24CC400}"
+      DTS:ObjectName="Excel Connection Manager">
+      <DTS:PropertyExpression
+        DTS:Name="ExcelFilePath">@[User::SalesInputFolder] +  @[User::SalesFileName]</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\FrescoDB\ETL\Daily Transactions\data\;Extended Properties=&quot;EXCEL 12.0 XML;HDR=YES&quot;;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[SUN87\SQLDEVELOPER.Fresco]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{A73367AW-010B-31CE-BAF7-2B0FD24CC400}"
+      DTS:ObjectName="SUN87\SQLDEVELOPER.Fresco">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=SUN87\SQLDEVELOPER;Initial Catalog=Fresco;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{A73367AW-010B-31CE-BAF7-2B0FD24CC400}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="MinSalesDate">
+      <DTS:VariableValue
+        DTS:DataType="8"
+        xml:space="preserve"></DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{A73367AW-010B-31CE-BAF7-2B0FD24CC400}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="SalesArchiveFolder">
+      <DTS:VariableValue
+        DTS:DataType="8">\\sunfile01\Shared\Fresco\Sales\Sales Files\Archive\</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{A73367AW-010B-31CE-BAF7-2B0FD24CC400}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[User::SalesArchiveFolder] + @[User::SalesFileName]"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="SalesArchiveFullPath">
+      <DTS:VariableValue
+        DTS:DataType="8">\\sunfile01\Shared\Fresco\Sales\Sales Files\Archive\</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{A73367AW-010B-31CE-BAF7-2B0FD24CC400}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="SalesFileName">
+      <DTS:VariableValue
+        DTS:DataType="8"
+        xml:space="preserve"></DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{A73367AW-010B-31CE-BAF7-2B0FD24CC400}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="SalesInputFolder">
+      <DTS:VariableValue
+        DTS:DataType="8">C:\FrescoDB\ETL\Daily Transactions\data\</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{A73367AW-010B-31CE-BAF7-2B0FD24CC400}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[User::SalesInputFolder]  +  @[User::SalesFileName]"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="SalesInputFullPath">
+      <DTS:VariableValue
+        DTS:DataType="8">C:\FrescoDB\ETL\Daily Transactions\data\</DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Download Latest Transactions File"
+      DTS:CreationName="Microsoft.ExecuteProcess"
+      DTS:Description="Execute Process Task"
+      DTS:DTSID="{A73367AW-010B-31CE-BAF7-2B0FD24CC400}"
+      DTS:ExecutableType="Microsoft.ExecuteProcess"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Download Latest Transactions File"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <ExecuteProcessData
+          Executable="C:\FrescoDB\ETL\Daily Transactions\scripts\Batch_GmailDownload.bat" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Foreach Loop Container 1"
+      DTS:CreationName="STOCK:FOREACHLOOP"
+      DTS:Description="Foreach Loop Container"
+      DTS:DTSID="{A73367AW-010B-31CE-BAF7-2B0FD24CC400}"
+      DTS:ExecutableType="STOCK:FOREACHLOOP"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Foreach Loop Container 1">
+      <DTS:ForEachEnumerator
+        DTS:CreationName="Microsoft.ForEachFileEnumerator"
+        DTS:DTSID="{6da48bcc-6cf6-41f6-8a47-ac3676fe2c00}"
+        DTS:ObjectName="{C1C058F6-DAC6-4A6B-A3BC-10BCB0F1B9A2}">
+        <DTS:PropertyExpression
+          DTS:Name="Directory">@[User::SalesInputFolder]</DTS:PropertyExpression>
+        <DTS:ObjectData>
+          <ForEachFileEnumeratorProperties>
+            <FEFEProperty
+              Folder="C:\FrescoDB\ETL\Daily Transactions\data\" />
+            <FEFEProperty
+              FileSpec="*.*" />
+            <FEFEProperty
+              FileNameRetrievalType="1" />
+            <FEFEProperty
+              Recurse="0" />
+          </ForEachFileEnumeratorProperties>
+        </DTS:ObjectData>
+      </DTS:ForEachEnumerator>
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\Foreach Loop Container 1\Archive File"
+          DTS:CreationName="Microsoft.FileSystemTask"
+          DTS:Description="File System Task"
+		  DTS:DTSID="{A73367AW-010B-31CE-BAF7-2B0FD24CC400}"
+          DTS:ExecutableType="Microsoft.FileSystemTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Archive File"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <FileSystemData
+              TaskOperationType="MoveFile"
+              TaskOverwriteDestFile="True"
+              TaskSourcePath="User::SalesInputFullPath"
+              TaskIsSourceVariable="True"
+              TaskDestinationPath="User::SalesArchiveFolder"
+              TaskIsDestinationVariable="True" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Foreach Loop Container 1\Create Sales Files for 7 Rolling Days"
+          DTS:CreationName="Microsoft.ExecuteProcess"
+          DTS:Description="Execute Process Task"
+		  DTS:DTSID="{A73367AW-010B-31CE-BAF7-2B0FD24CC400}"
+          DTS:ExecutableType="Microsoft.ExecuteProcess"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Create Sales Files for 7 Rolling Days"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <ExecuteProcessData
+              Executable="C:\FrescoDB\ETL\Daily Transactions\scripts\Batch_UpdateSalesFiles.bat"
+              WindowStyle="Hidden" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Foreach Loop Container 1\Delete Contents of Staging Table"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{88e429cd-1505-48bb-b6fc-e7b4cc235da4}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Delete Contents of Staging Table"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{443E28C2-1986-49BD-900E-689783F4223E}"
+              SQLTask:SqlStatementSource="DELETE FROM StgSales" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Foreach Loop Container 1\Delete Contents of Staging Table Before Starting"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{a67397cd-448c-49b2-bd94-3ffa84653626}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Delete Contents of Staging Table Before Starting"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{443E28C2-1986-49BD-900E-689783F4223E}"
+              SQLTask:SqlStatementSource="DELETE FROM StgSales" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Foreach Loop Container 1\Get MinSalesDate"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{1fcf89a9-8318-44a8-8235-0d543b582017}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Get MinSalesDate"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{443E28C2-1986-49BD-900E-689783F4223E}"
+              SQLTask:SqlStatementSource="SELECT MIN(SalesDate) AS MinDateValue FROM StgSales"
+              SQLTask:ResultType="ResultSetType_SingleRow" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              <SQLTask:ResultBinding
+                SQLTask:ResultName="MinDateValue"
+                SQLTask:DtsVariableName="User::MinSalesDate" />
+            </SQLTask:SqlTaskData>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table"
+          DTS:CreationName="Microsoft.Pipeline"
+          DTS:DelayValidation="True"
+          DTS:Description="Data Flow Task"
+          DTS:DTSID="{56B81C9B-92A7-4B95-BD93-186C3319B47B}"
+          DTS:ExecutableType="Microsoft.Pipeline"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Import XLSX File to Staging Table"
+          DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <pipeline
+              version="1">
+              <components>
+                <component
+                  refId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\Data Conversion"
+                  componentClassID="Microsoft.DataConvert"
+                  contactInfo="Data Conversion;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+                  description="Data Conversion"
+                  name="Data Conversion"
+                  usesDispositions="true">
+                  <inputs>
+                    <input
+                      refId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\Data Conversion.Inputs[Data Conversion Input]"
+                      name="Data Conversion Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\Data Conversion.Inputs[Data Conversion Input].Columns[POS Txn Line #]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="POS Txn Line #"
+                          lineageId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\Excel Source.Outputs[Excel Source Output].Columns[POS Txn Line #]" />
+                        <inputColumn
+                          refId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\Data Conversion.Inputs[Data Conversion Input].Columns[Description]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Description"
+                          lineageId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\Excel Source.Outputs[Excel Source Output].Columns[Description]" />
+                        <inputColumn
+                          refId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\Data Conversion.Inputs[Data Conversion Input].Columns[Order Program]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Order Program"
+                          lineageId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\Excel Source.Outputs[Excel Source Output].Columns[Order Program]" />
+                      </inputColumns>
+                      <externalMetadataColumns />
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\Data Conversion.Outputs[Data Conversion Output]"
+                      exclusionGroup="1"
+                      name="Data Conversion Output"
+                      synchronousInputId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\Data Conversion.Inputs[Data Conversion Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of POS Txn Line #]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of POS Txn Line #]"
+                          name="Copy of POS Txn Line #"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Specifies the input column used as the source of data for the conversion."
+                              name="SourceInputColumnLineageID">#{Package\Foreach Loop Container 1\Import XLSX File to Staging Table\Excel Source.Outputs[Excel Source Output].Columns[POS Txn Line #]}</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Description]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Description]"
+                          name="Copy of Description"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Specifies the input column used as the source of data for the conversion."
+                              name="SourceInputColumnLineageID">#{Package\Foreach Loop Container 1\Import XLSX File to Staging Table\Excel Source.Outputs[Excel Source Output].Columns[Description]}</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Order Program]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Order Program]"
+                          name="Copy of Order Program"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Specifies the input column used as the source of data for the conversion."
+                              name="SourceInputColumnLineageID">#{Package\Foreach Loop Container 1\Import XLSX File to Staging Table\Excel Source.Outputs[Excel Source Output].Columns[Order Program]}</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                          </properties>
+                        </outputColumn>
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                    <output
+                      refId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\Data Conversion.Outputs[Data Conversion Error Output]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="Data Conversion Error Output"
+                      synchronousInputId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\Data Conversion.Inputs[Data Conversion Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\Excel Source"
+                  componentClassID="Microsoft.ExcelSource"
+                  contactInfo="Excel Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+                  description="Excel Source"
+                  name="Excel Source"
+                  usesDispositions="true"
+                  version="1">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset"></property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">SELECT * FROM [Sun Holdings Daily Transaction $A5:K200000]</property>
+                    <property
+                      dataType="System.String"
+                      description="The variable that contains the SQL command to be executed."
+                      name="SqlCommandVariable"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">2</property>
+                    <property
+                      dataType="System.String"
+                      description="The mapping from parameters in the SQL command to variables."
+                      name="ParameterMapping"></property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\Excel Source.Connections[OleDbConnection]"
+                      connectionManagerID="Package.ConnectionManagers[Excel Connection Manager]"
+                      connectionManagerRefId="Package.ConnectionManagers[Excel Connection Manager]"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <outputs>
+                    <output
+                      refId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\Excel Source.Outputs[Excel Source Output]"
+                      name="Excel Source Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\Excel Source.Outputs[Excel Source Output].Columns[Date]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\Excel Source.Outputs[Excel Source Output].ExternalColumns[Date]"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\Excel Source.Outputs[Excel Source Output].Columns[Date]"
+                          name="Date"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\Excel Source.Outputs[Excel Source Output].Columns[Store]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\Excel Source.Outputs[Excel Source Output].ExternalColumns[Store]"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\Excel Source.Outputs[Excel Source Output].Columns[Store]"
+                          name="Store"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\Excel Source.Outputs[Excel Source Output].Columns[Cashier]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\Excel Source.Outputs[Excel Source Output].ExternalColumns[Cashier]"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\Excel Source.Outputs[Excel Source Output].Columns[Cashier]"
+                          name="Cashier"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\Excel Source.Outputs[Excel Source Output].Columns[Order Program]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\Excel Source.Outputs[Excel Source Output].ExternalColumns[Order Program]"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\Excel Source.Outputs[Excel Source Output].Columns[Order Program]"
+                          name="Order Program"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\Excel Source.Outputs[Excel Source Output].Columns[POS Txn]"
+                          dataType="r8"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\Excel Source.Outputs[Excel Source Output].ExternalColumns[POS Txn]"
+                          lineageId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\Excel Source.Outputs[Excel Source Output].Columns[POS Txn]"
+                          name="POS Txn"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\Excel Source.Outputs[Excel Source Output].Columns[POS Txn Line #]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\Excel Source.Outputs[Excel Source Output].ExternalColumns[POS Txn Line #]"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\Excel Source.Outputs[Excel Source Output].Columns[POS Txn Line #]"
+                          name="POS Txn Line #"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\Excel Source.Outputs[Excel Source Output].Columns[Item]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\Excel Source.Outputs[Excel Source Output].ExternalColumns[Item]"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\Excel Source.Outputs[Excel Source Output].Columns[Item]"
+                          name="Item"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\Excel Source.Outputs[Excel Source Output].Columns[Description]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\Excel Source.Outputs[Excel Source Output].ExternalColumns[F8]"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\Excel Source.Outputs[Excel Source Output].Columns[Description]"
+                          name="Description"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\Excel Source.Outputs[Excel Source Output].Columns[Sls U]"
+                          dataType="r8"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\Excel Source.Outputs[Excel Source Output].ExternalColumns[Sls U]"
+                          lineageId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\Excel Source.Outputs[Excel Source Output].Columns[Sls U]"
+                          name="Sls U"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\Excel Source.Outputs[Excel Source Output].Columns[Sls $]"
+                          dataType="cy"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\Excel Source.Outputs[Excel Source Output].ExternalColumns[Sls $]"
+                          lineageId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\Excel Source.Outputs[Excel Source Output].Columns[Sls $]"
+                          name="Sls $"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\Excel Source.Outputs[Excel Source Output].Columns[COGS]"
+                          dataType="cy"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\Excel Source.Outputs[Excel Source Output].ExternalColumns[COGS]"
+                          lineageId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\Excel Source.Outputs[Excel Source Output].Columns[COGS]"
+                          name="COGS"
+                          truncationRowDisposition="FailComponent" />
+                      </outputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\Excel Source.Outputs[Excel Source Output].ExternalColumns[Date]"
+                          dataType="wstr"
+                          length="255"
+                          name="Date" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\Excel Source.Outputs[Excel Source Output].ExternalColumns[Store]"
+                          dataType="wstr"
+                          length="255"
+                          name="Store" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\Excel Source.Outputs[Excel Source Output].ExternalColumns[Cashier]"
+                          dataType="wstr"
+                          length="255"
+                          name="Cashier" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\Excel Source.Outputs[Excel Source Output].ExternalColumns[Order Program]"
+                          dataType="wstr"
+                          length="255"
+                          name="Order Program" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\Excel Source.Outputs[Excel Source Output].ExternalColumns[POS Txn]"
+                          dataType="r8"
+                          name="POS Txn" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\Excel Source.Outputs[Excel Source Output].ExternalColumns[POS Txn Line #]"
+                          dataType="wstr"
+                          length="255"
+                          name="POS Txn Line #" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\Excel Source.Outputs[Excel Source Output].ExternalColumns[Item]"
+                          dataType="wstr"
+                          length="255"
+                          name="Item" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\Excel Source.Outputs[Excel Source Output].ExternalColumns[F8]"
+                          dataType="wstr"
+                          length="255"
+                          name="F8" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\Excel Source.Outputs[Excel Source Output].ExternalColumns[Sls U]"
+                          dataType="r8"
+                          name="Sls U" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\Excel Source.Outputs[Excel Source Output].ExternalColumns[Sls $]"
+                          dataType="cy"
+                          name="Sls $" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\Excel Source.Outputs[Excel Source Output].ExternalColumns[COGS]"
+                          dataType="cy"
+                          name="COGS" />
+                      </externalMetadataColumns>
+                    </output>
+                    <output
+                      refId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\Excel Source.Outputs[Excel Source Error Output]"
+                      isErrorOut="true"
+                      name="Excel Source Error Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\Excel Source.Outputs[Excel Source Error Output].Columns[Date]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\Excel Source.Outputs[Excel Source Error Output].Columns[Date]"
+                          name="Date" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\Excel Source.Outputs[Excel Source Error Output].Columns[Store]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\Excel Source.Outputs[Excel Source Error Output].Columns[Store]"
+                          name="Store" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\Excel Source.Outputs[Excel Source Error Output].Columns[Cashier]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\Excel Source.Outputs[Excel Source Error Output].Columns[Cashier]"
+                          name="Cashier" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\Excel Source.Outputs[Excel Source Error Output].Columns[Order Program]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\Excel Source.Outputs[Excel Source Error Output].Columns[Order Program]"
+                          name="Order Program" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\Excel Source.Outputs[Excel Source Error Output].Columns[POS Txn]"
+                          dataType="r8"
+                          lineageId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\Excel Source.Outputs[Excel Source Error Output].Columns[POS Txn]"
+                          name="POS Txn" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\Excel Source.Outputs[Excel Source Error Output].Columns[POS Txn Line #]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\Excel Source.Outputs[Excel Source Error Output].Columns[POS Txn Line #]"
+                          name="POS Txn Line #" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\Excel Source.Outputs[Excel Source Error Output].Columns[Item]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\Excel Source.Outputs[Excel Source Error Output].Columns[Item]"
+                          name="Item" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\Excel Source.Outputs[Excel Source Error Output].Columns[F8]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\Excel Source.Outputs[Excel Source Error Output].Columns[F8]"
+                          name="F8" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\Excel Source.Outputs[Excel Source Error Output].Columns[Sls U]"
+                          dataType="r8"
+                          lineageId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\Excel Source.Outputs[Excel Source Error Output].Columns[Sls U]"
+                          name="Sls U" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\Excel Source.Outputs[Excel Source Error Output].Columns[Sls $]"
+                          dataType="cy"
+                          lineageId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\Excel Source.Outputs[Excel Source Error Output].Columns[Sls $]"
+                          name="Sls $" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\Excel Source.Outputs[Excel Source Error Output].Columns[COGS]"
+                          dataType="cy"
+                          lineageId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\Excel Source.Outputs[Excel Source Error Output].Columns[COGS]"
+                          name="COGS" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\OLE DB Destination"
+                  componentClassID="Microsoft.OLEDBDestination"
+                  contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+                  description="OLE DB Destination"
+                  name="OLE DB Destination"
+                  usesDispositions="true"
+                  version="4">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset">[dbo].[StgSales]</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">0</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepIdentity">false</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepNulls">false</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                      name="FastLoadOptions"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                      name="FastLoadMaxInsertCommitSize">2147483647</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\OLE DB Destination.Connections[OleDbConnection]"
+                      connectionManagerID="Package.ConnectionManagers[SUN87\SQLDEVELOPER.Fresco]"
+                      connectionManagerRefId="Package.ConnectionManagers[SUN87\SQLDEVELOPER.Fresco]"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                      errorOrTruncationOperation="Insert"
+                      errorRowDisposition="FailComponent"
+                      hasSideEffects="true"
+                      name="OLE DB Destination Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Store]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Store"
+                          externalMetadataColumnId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Store]"
+                          lineageId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\Excel Source.Outputs[Excel Source Output].Columns[Store]" />
+                        <inputColumn
+                          refId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Cashier]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Cashier"
+                          externalMetadataColumnId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Cashier]"
+                          lineageId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\Excel Source.Outputs[Excel Source Output].Columns[Cashier]" />
+                        <inputColumn
+                          refId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[COGS]"
+                          cachedDataType="cy"
+                          cachedName="COGS"
+                          externalMetadataColumnId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[COGS]"
+                          lineageId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\Excel Source.Outputs[Excel Source Output].Columns[COGS]" />
+                        <inputColumn
+                          refId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Date]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Date"
+                          externalMetadataColumnId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[SalesDate]"
+                          lineageId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\Excel Source.Outputs[Excel Source Output].Columns[Date]" />
+                        <inputColumn
+                          refId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Copy of Order Program]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="255"
+                          cachedName="Copy of Order Program"
+                          externalMetadataColumnId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[OrderProgram]"
+                          lineageId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Order Program]" />
+                        <inputColumn
+                          refId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[POS Txn]"
+                          cachedDataType="r8"
+                          cachedName="POS Txn"
+                          externalMetadataColumnId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[POSTxn]"
+                          lineageId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\Excel Source.Outputs[Excel Source Output].Columns[POS Txn]" />
+                        <inputColumn
+                          refId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Copy of POS Txn Line #]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="255"
+                          cachedName="Copy of POS Txn Line #"
+                          externalMetadataColumnId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[POSTxnLine]"
+                          lineageId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of POS Txn Line #]" />
+                        <inputColumn
+                          refId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Item]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Item"
+                          externalMetadataColumnId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ItemNumber]"
+                          lineageId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\Excel Source.Outputs[Excel Source Output].Columns[Item]" />
+                        <inputColumn
+                          refId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Copy of Description]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="255"
+                          cachedName="Copy of Description"
+                          externalMetadataColumnId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ItemDescription]"
+                          lineageId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Description]" />
+                        <inputColumn
+                          refId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Sls U]"
+                          cachedDataType="r8"
+                          cachedName="Sls U"
+                          externalMetadataColumnId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[SalesUnits]"
+                          lineageId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\Excel Source.Outputs[Excel Source Output].Columns[Sls U]" />
+                        <inputColumn
+                          refId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Sls $]"
+                          cachedDataType="cy"
+                          cachedName="Sls $"
+                          externalMetadataColumnId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[SalesAmount]"
+                          lineageId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\Excel Source.Outputs[Excel Source Output].Columns[Sls $]" />
+                      </inputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[SalesDate]"
+                          dataType="dbDate"
+                          name="SalesDate" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Store]"
+                          dataType="i4"
+                          name="Store" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Cashier]"
+                          dataType="i4"
+                          name="Cashier" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[OrderProgram]"
+                          codePage="1252"
+                          dataType="str"
+                          length="255"
+                          name="OrderProgram" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[POSTxn]"
+                          codePage="1252"
+                          dataType="str"
+                          length="255"
+                          name="POSTxn" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[POSTxnLine]"
+                          codePage="1252"
+                          dataType="str"
+                          length="255"
+                          name="POSTxnLine" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ItemNumber]"
+                          dataType="i4"
+                          name="ItemNumber" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ItemDescription]"
+                          codePage="1252"
+                          dataType="str"
+                          length="255"
+                          name="ItemDescription" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[SalesUnits]"
+                          dataType="i4"
+                          name="SalesUnits" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[SalesAmount]"
+                          dataType="cy"
+                          name="SalesAmount" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[COGS]"
+                          dataType="cy"
+                          name="COGS" />
+                      </externalMetadataColumns>
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\OLE DB Destination.Outputs[OLE DB Destination Error Output]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="OLE DB Destination Error Output"
+                      synchronousInputId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\OLE DB Destination.Inputs[OLE DB Destination Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+              </components>
+              <paths>
+                <path
+                  refId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table.Paths[Data Conversion Output]"
+                  endId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                  name="Data Conversion Output"
+                  startId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\Data Conversion.Outputs[Data Conversion Output]" />
+                <path
+                  refId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table.Paths[Excel Source Output]"
+                  endId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\Data Conversion.Inputs[Data Conversion Input]"
+                  name="Excel Source Output"
+                  startId="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\Excel Source.Outputs[Excel Source Output]" />
+              </paths>
+            </pipeline>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table"
+          DTS:CreationName="Microsoft.Pipeline"
+          DTS:Description="Data Flow Task"
+          DTS:DTSID="{fceea70a-3b61-4d95-ab99-5841e1527fba}"
+          DTS:ExecutableType="Microsoft.Pipeline"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Importing Staging Table to Fact Table"
+          DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <pipeline
+              version="1">
+              <components>
+                <component
+                  refId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Destination"
+                  componentClassID="Microsoft.OLEDBDestination"
+                  contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+                  description="OLE DB Destination"
+                  name="OLE DB Destination"
+                  usesDispositions="true"
+                  version="4">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset">[dbo].[FacSales]</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">0</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepIdentity">false</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepNulls">false</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                      name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                      name="FastLoadMaxInsertCommitSize">2147483647</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Destination.Connections[OleDbConnection]"
+                      connectionManagerID="Package.ConnectionManagers[SUN87\SQLDEVELOPER.Fresco]"
+                      connectionManagerRefId="Package.ConnectionManagers[SUN87\SQLDEVELOPER.Fresco]"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                      errorOrTruncationOperation="Insert"
+                      errorRowDisposition="FailComponent"
+                      hasSideEffects="true"
+                      name="OLE DB Destination Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[SalesDate]"
+                          cachedDataType="dbDate"
+                          cachedName="SalesDate"
+                          externalMetadataColumnId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[SalesDate]"
+                          lineageId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Source.Outputs[OLE DB Source Output].Columns[SalesDate]" />
+                        <inputColumn
+                          refId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Store]"
+                          cachedDataType="i4"
+                          cachedName="Store"
+                          externalMetadataColumnId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Store]"
+                          lineageId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Source.Outputs[OLE DB Source Output].Columns[Store]" />
+                        <inputColumn
+                          refId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Cashier]"
+                          cachedDataType="i4"
+                          cachedName="Cashier"
+                          externalMetadataColumnId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Cashier]"
+                          lineageId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Source.Outputs[OLE DB Source Output].Columns[Cashier]" />
+                        <inputColumn
+                          refId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[OrderProgram]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="255"
+                          cachedName="OrderProgram"
+                          externalMetadataColumnId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[OrderProgram]"
+                          lineageId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Source.Outputs[OLE DB Source Output].Columns[OrderProgram]" />
+                        <inputColumn
+                          refId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[POSTxn]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="255"
+                          cachedName="POSTxn"
+                          externalMetadataColumnId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[POSTxn]"
+                          lineageId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Source.Outputs[OLE DB Source Output].Columns[POSTxn]" />
+                        <inputColumn
+                          refId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[POSTxnLine]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="255"
+                          cachedName="POSTxnLine"
+                          externalMetadataColumnId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[POSTxnLine]"
+                          lineageId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Source.Outputs[OLE DB Source Output].Columns[POSTxnLine]" />
+                        <inputColumn
+                          refId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ItemNumber]"
+                          cachedDataType="i4"
+                          cachedName="ItemNumber"
+                          externalMetadataColumnId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ItemNumber]"
+                          lineageId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Source.Outputs[OLE DB Source Output].Columns[ItemNumber]" />
+                        <inputColumn
+                          refId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ItemDescription]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="255"
+                          cachedName="ItemDescription"
+                          externalMetadataColumnId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ItemDescription]"
+                          lineageId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Source.Outputs[OLE DB Source Output].Columns[ItemDescription]" />
+                        <inputColumn
+                          refId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[SalesUnits]"
+                          cachedDataType="i4"
+                          cachedName="SalesUnits"
+                          externalMetadataColumnId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[SalesUnits]"
+                          lineageId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Source.Outputs[OLE DB Source Output].Columns[SalesUnits]" />
+                        <inputColumn
+                          refId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[SalesAmount]"
+                          cachedDataType="cy"
+                          cachedName="SalesAmount"
+                          externalMetadataColumnId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[SalesAmount]"
+                          lineageId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Source.Outputs[OLE DB Source Output].Columns[SalesAmount]" />
+                        <inputColumn
+                          refId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[COGS]"
+                          cachedDataType="cy"
+                          cachedName="COGS"
+                          externalMetadataColumnId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[COGS]"
+                          lineageId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Source.Outputs[OLE DB Source Output].Columns[COGS]" />
+                      </inputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ID]"
+                          dataType="i4"
+                          name="ID" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[SalesDate]"
+                          dataType="dbDate"
+                          name="SalesDate" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Store]"
+                          dataType="i4"
+                          name="Store" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Cashier]"
+                          dataType="i4"
+                          name="Cashier" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[OrderProgram]"
+                          codePage="1252"
+                          dataType="str"
+                          length="255"
+                          name="OrderProgram" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[POSTxn]"
+                          codePage="1252"
+                          dataType="str"
+                          length="255"
+                          name="POSTxn" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[POSTxnLine]"
+                          codePage="1252"
+                          dataType="str"
+                          length="255"
+                          name="POSTxnLine" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ItemNumber]"
+                          dataType="i4"
+                          name="ItemNumber" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ItemDescription]"
+                          codePage="1252"
+                          dataType="str"
+                          length="255"
+                          name="ItemDescription" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[SalesUnits]"
+                          dataType="i4"
+                          name="SalesUnits" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[SalesAmount]"
+                          dataType="cy"
+                          name="SalesAmount" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[COGS]"
+                          dataType="cy"
+                          name="COGS" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[DateAdded]"
+                          dataType="dbTimeStamp"
+                          name="DateAdded" />
+                      </externalMetadataColumns>
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Destination.Outputs[OLE DB Destination Error Output]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="OLE DB Destination Error Output"
+                      synchronousInputId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Destination.Inputs[OLE DB Destination Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Source"
+                  componentClassID="Microsoft.OLEDBSource"
+                  contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+                  description="OLE DB Source"
+                  name="OLE DB Source"
+                  usesDispositions="true"
+                  version="7">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset">[dbo].[StgSales]</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                    <property
+                      dataType="System.String"
+                      description="The variable that contains the SQL command to be executed."
+                      name="SqlCommandVariable"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">0</property>
+                    <property
+                      dataType="System.String"
+                      description="The mappings between the parameters in the SQL command and variables."
+                      name="ParameterMapping"></property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Source.Connections[OleDbConnection]"
+                      connectionManagerID="Package.ConnectionManagers[SUN87\SQLDEVELOPER.Fresco]"
+                      connectionManagerRefId="Package.ConnectionManagers[SUN87\SQLDEVELOPER.Fresco]"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <outputs>
+                    <output
+                      refId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Source.Outputs[OLE DB Source Output]"
+                      name="OLE DB Source Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Source.Outputs[OLE DB Source Output].Columns[SalesDate]"
+                          dataType="dbDate"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[SalesDate]"
+                          lineageId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Source.Outputs[OLE DB Source Output].Columns[SalesDate]"
+                          name="SalesDate"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Source.Outputs[OLE DB Source Output].Columns[Store]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Store]"
+                          lineageId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Source.Outputs[OLE DB Source Output].Columns[Store]"
+                          name="Store"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Source.Outputs[OLE DB Source Output].Columns[Cashier]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Cashier]"
+                          lineageId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Source.Outputs[OLE DB Source Output].Columns[Cashier]"
+                          name="Cashier"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Source.Outputs[OLE DB Source Output].Columns[OrderProgram]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[OrderProgram]"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Source.Outputs[OLE DB Source Output].Columns[OrderProgram]"
+                          name="OrderProgram"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Source.Outputs[OLE DB Source Output].Columns[POSTxn]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[POSTxn]"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Source.Outputs[OLE DB Source Output].Columns[POSTxn]"
+                          name="POSTxn"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Source.Outputs[OLE DB Source Output].Columns[POSTxnLine]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[POSTxnLine]"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Source.Outputs[OLE DB Source Output].Columns[POSTxnLine]"
+                          name="POSTxnLine"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Source.Outputs[OLE DB Source Output].Columns[ItemNumber]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ItemNumber]"
+                          lineageId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Source.Outputs[OLE DB Source Output].Columns[ItemNumber]"
+                          name="ItemNumber"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Source.Outputs[OLE DB Source Output].Columns[ItemDescription]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ItemDescription]"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Source.Outputs[OLE DB Source Output].Columns[ItemDescription]"
+                          name="ItemDescription"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Source.Outputs[OLE DB Source Output].Columns[SalesUnits]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[SalesUnits]"
+                          lineageId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Source.Outputs[OLE DB Source Output].Columns[SalesUnits]"
+                          name="SalesUnits"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Source.Outputs[OLE DB Source Output].Columns[SalesAmount]"
+                          dataType="cy"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[SalesAmount]"
+                          lineageId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Source.Outputs[OLE DB Source Output].Columns[SalesAmount]"
+                          name="SalesAmount"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Source.Outputs[OLE DB Source Output].Columns[COGS]"
+                          dataType="cy"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[COGS]"
+                          lineageId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Source.Outputs[OLE DB Source Output].Columns[COGS]"
+                          name="COGS"
+                          truncationRowDisposition="FailComponent" />
+                      </outputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[SalesDate]"
+                          dataType="dbDate"
+                          name="SalesDate" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Store]"
+                          dataType="i4"
+                          name="Store" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Cashier]"
+                          dataType="i4"
+                          name="Cashier" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[OrderProgram]"
+                          codePage="1252"
+                          dataType="str"
+                          length="255"
+                          name="OrderProgram" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[POSTxn]"
+                          codePage="1252"
+                          dataType="str"
+                          length="255"
+                          name="POSTxn" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[POSTxnLine]"
+                          codePage="1252"
+                          dataType="str"
+                          length="255"
+                          name="POSTxnLine" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ItemNumber]"
+                          dataType="i4"
+                          name="ItemNumber" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ItemDescription]"
+                          codePage="1252"
+                          dataType="str"
+                          length="255"
+                          name="ItemDescription" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[SalesUnits]"
+                          dataType="i4"
+                          name="SalesUnits" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[SalesAmount]"
+                          dataType="cy"
+                          name="SalesAmount" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[COGS]"
+                          dataType="cy"
+                          name="COGS" />
+                      </externalMetadataColumns>
+                    </output>
+                    <output
+                      refId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Source.Outputs[OLE DB Source Error Output]"
+                      isErrorOut="true"
+                      name="OLE DB Source Error Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[SalesDate]"
+                          dataType="dbDate"
+                          lineageId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[SalesDate]"
+                          name="SalesDate" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Store]"
+                          dataType="i4"
+                          lineageId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Store]"
+                          name="Store" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Cashier]"
+                          dataType="i4"
+                          lineageId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Cashier]"
+                          name="Cashier" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[OrderProgram]"
+                          codePage="1252"
+                          dataType="str"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[OrderProgram]"
+                          name="OrderProgram" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[POSTxn]"
+                          codePage="1252"
+                          dataType="str"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[POSTxn]"
+                          name="POSTxn" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[POSTxnLine]"
+                          codePage="1252"
+                          dataType="str"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[POSTxnLine]"
+                          name="POSTxnLine" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ItemNumber]"
+                          dataType="i4"
+                          lineageId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ItemNumber]"
+                          name="ItemNumber" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ItemDescription]"
+                          codePage="1252"
+                          dataType="str"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ItemDescription]"
+                          name="ItemDescription" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[SalesUnits]"
+                          dataType="i4"
+                          lineageId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[SalesUnits]"
+                          name="SalesUnits" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[SalesAmount]"
+                          dataType="cy"
+                          lineageId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[SalesAmount]"
+                          name="SalesAmount" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[COGS]"
+                          dataType="cy"
+                          lineageId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[COGS]"
+                          name="COGS" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+              </components>
+              <paths>
+                <path
+                  refId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table.Paths[OLE DB Source Output]"
+                  endId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                  name="OLE DB Source Output"
+                  startId="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Source.Outputs[OLE DB Source Output]" />
+              </paths>
+            </pipeline>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Foreach Loop Container 1\Removal of Rolling Days in Fact Table"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{8b288e76-62c4-48b4-9cf8-cc72701e9174}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Removal of Rolling Days in Fact Table"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{443E28C2-1986-49BD-900E-689783F4223E}"
+              SQLTask:SqlStatementSource="DELETE FROM FacSales WHERE (SalesDate &gt;= ?)" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="0"
+                SQLTask:DtsVariableName="User::MinSalesDate"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="129"
+                SQLTask:ParameterSize="-1" />
+            </SQLTask:SqlTaskData>
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:PrecedenceConstraints>
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Foreach Loop Container 1.PrecedenceConstraints[Constraint]"
+          DTS:CreationName=""
+          DTS:DTSID="{56EE73C6-CD44-4BB7-AB69-7B4F63A92112}"
+          DTS:From="Package\Foreach Loop Container 1\Delete Contents of Staging Table Before Starting"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint"
+          DTS:To="Package\Foreach Loop Container 1\Import XLSX File to Staging Table" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Foreach Loop Container 1.PrecedenceConstraints[Constraint 1]"
+          DTS:CreationName=""
+          DTS:DTSID="{69754aaa-2eee-476f-ad38-7ae9a7fbf9fb}"
+          DTS:From="Package\Foreach Loop Container 1\Get MinSalesDate"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 1"
+          DTS:To="Package\Foreach Loop Container 1\Removal of Rolling Days in Fact Table" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Foreach Loop Container 1.PrecedenceConstraints[Constraint 2]"
+          DTS:CreationName=""
+          DTS:DTSID="{6f532f08-c8d1-4f60-833c-54f804c5e643}"
+          DTS:From="Package\Foreach Loop Container 1\Removal of Rolling Days in Fact Table"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 2"
+          DTS:To="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Foreach Loop Container 1.PrecedenceConstraints[Constraint 3]"
+          DTS:CreationName=""
+          DTS:DTSID="{7d172a90-cd8c-4e3b-a5ed-8326670ed2bb}"
+          DTS:From="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 3"
+          DTS:To="Package\Foreach Loop Container 1\Delete Contents of Staging Table" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Foreach Loop Container 1.PrecedenceConstraints[Constraint 4]"
+          DTS:CreationName=""
+          DTS:DTSID="{015DEDF9-97F6-4B5E-8696-17AA39E663AC}"
+          DTS:From="Package\Foreach Loop Container 1\Import XLSX File to Staging Table"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 4"
+          DTS:To="Package\Foreach Loop Container 1\Get MinSalesDate" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Foreach Loop Container 1.PrecedenceConstraints[Constraint 5]"
+          DTS:CreationName=""
+          DTS:DTSID="{8B23E024-EF43-4585-89F6-EA6B607E142A}"
+          DTS:From="Package\Foreach Loop Container 1\Delete Contents of Staging Table"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 5"
+          DTS:To="Package\Foreach Loop Container 1\Archive File" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Foreach Loop Container 1.PrecedenceConstraints[Constraint 6]"
+          DTS:CreationName=""
+          DTS:DTSID="{BC7983F9-A64A-4D50-8C50-85C05D08994B}"
+          DTS:From="Package\Foreach Loop Container 1\Archive File"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 6"
+          DTS:To="Package\Foreach Loop Container 1\Create Sales Files for 7 Rolling Days" />
+      </DTS:PrecedenceConstraints>
+      <DTS:ForEachVariableMappings>
+        <DTS:ForEachVariableMapping
+          DTS:CreationName=""
+          DTS:DTSID="{9406A1FE-3625-4714-83D5-2FBE148812B1}"
+          DTS:ObjectName="{9406A1FE-3625-4714-83D5-2FBE148812B1}"
+          DTS:ValueIndex="0"
+          DTS:VariableName="User::SalesFileName" />
+      </DTS:ForEachVariableMappings>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{9F17CCD7-B4F6-4A42-A267-DBD86FB20730}"
+      DTS:From="Package\Download Latest Transactions File"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Foreach Loop Container 1" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="sql12">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="241,42"
+          Id="Package\Download Latest Transactions File"
+          TopLeft="552,183" />
+        <NodeLayout
+          Size="139,42"
+          Id="Package\Foreach Loop Container 1\Archive File"
+          TopLeft="138.888888888889,449.111111111111" />
+        <NodeLayout
+          Size="250,42"
+          Id="Package\Foreach Loop Container 1\Create Sales Files for 7 Rolling Days"
+          TopLeft="85,523" />
+        <NodeLayout
+          Size="243,42"
+          Id="Package\Foreach Loop Container 1\Delete Contents of Staging Table"
+          TopLeft="85,374" />
+        <NodeLayout
+          Size="319,42"
+          Id="Package\Foreach Loop Container 1\Delete Contents of Staging Table Before Starting"
+          TopLeft="64,23.5" />
+        <NodeLayout
+          Size="170,42"
+          Id="Package\Foreach Loop Container 1\Get MinSalesDate"
+          TopLeft="134,171" />
+        <NodeLayout
+          Size="247,42"
+          Id="Package\Foreach Loop Container 1\Import XLSX File to Staging Table"
+          TopLeft="121,103" />
+        <NodeLayout
+          Size="265,42"
+          Id="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table"
+          TopLeft="77,308" />
+        <NodeLayout
+          Size="268,42"
+          Id="Package\Foreach Loop Container 1\Removal of Rolling Days in Fact Table"
+          TopLeft="109,239" />
+        <EdgeLayout
+          Id="Package\Foreach Loop Container 1.PrecedenceConstraints[Constraint]"
+          TopLeft="223.5,65.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="21,37.5000000000001"
+              Start="0,0"
+              End="21,30.0000000000001">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,14.7500000000001" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,14.7500000000001"
+                    Point2="0,18.7500000000001"
+                    Point3="4,18.7500000000001" />
+                  <mssgle:LineSegment
+                    End="17,18.7500000000001" />
+                  <mssgle:CubicBezierSegment
+                    Point1="17,18.7500000000001"
+                    Point2="21,18.7500000000001"
+                    Point3="21,22.7500000000001" />
+                  <mssgle:LineSegment
+                    End="21,30.0000000000001" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Foreach Loop Container 1.PrecedenceConstraints[Constraint 1]"
+          TopLeft="219,213">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="24,26"
+              Start="0,0"
+              End="24,18.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,9" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,9"
+                    Point2="0,13"
+                    Point3="4,13" />
+                  <mssgle:LineSegment
+                    End="20,13" />
+                  <mssgle:CubicBezierSegment
+                    Point1="20,13"
+                    Point2="24,13"
+                    Point3="24,17" />
+                  <mssgle:LineSegment
+                    End="24,18.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Foreach Loop Container 1.PrecedenceConstraints[Constraint 2]"
+          TopLeft="243,281">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-33.5,27"
+              Start="0,0"
+              End="-33.5,19.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,9.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,9.5"
+                    Point2="0,13.5"
+                    Point3="-4,13.5" />
+                  <mssgle:LineSegment
+                    End="-29.5,13.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-29.5,13.5"
+                    Point2="-33.5,13.5"
+                    Point3="-33.5,17.5" />
+                  <mssgle:LineSegment
+                    End="-33.5,19.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Foreach Loop Container 1.PrecedenceConstraints[Constraint 3]"
+          TopLeft="208,350">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,24"
+              Start="0,0"
+              End="0,16.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,16.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Foreach Loop Container 1.PrecedenceConstraints[Constraint 4]"
+          TopLeft="244.5,145">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-25.5,25.9999999999999"
+              Start="0,0"
+              End="-25.5,18.4999999999999">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,8.99999999999994" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,8.99999999999994"
+                    Point2="0,12.9999999999999"
+                    Point3="-4,12.9999999999999" />
+                  <mssgle:LineSegment
+                    End="-21.5,12.9999999999999" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-21.5,12.9999999999999"
+                    Point2="-25.5,12.9999999999999"
+                    Point3="-25.5,16.9999999999999" />
+                  <mssgle:LineSegment
+                    End="-25.5,18.4999999999999" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Foreach Loop Container 1.PrecedenceConstraints[Constraint 5]"
+          TopLeft="207.444444444444,416">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,33.111111111111"
+              Start="0,0"
+              End="0,25.611111111111">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,25.611111111111" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Foreach Loop Container 1.PrecedenceConstraints[Constraint 6]"
+          TopLeft="209.194444444445,491.111111111111">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,31.888888888889"
+              Start="0,0"
+              End="0,24.388888888889">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,24.388888888889" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="427,588"
+          Size="427,631"
+          Id="Package\Foreach Loop Container 1"
+          TopLeft="457,258.888888888889" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="671.5,225">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,33.888888888889"
+              Start="0,0"
+              End="0,26.388888888889">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,26.388888888889" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Foreach Loop Container 1\Import XLSX File to Staging Table">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="146,42"
+          Id="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\Excel Source"
+          TopLeft="367,115" />
+        <NodeLayout
+          Size="179,42"
+          Id="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\OLE DB Destination"
+          TopLeft="427,350" />
+        <NodeLayout
+          Size="163,42"
+          Id="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\Data Conversion"
+          TopLeft="425,217" />
+        <EdgeLayout
+          Id="Package\Foreach Loop Container 1\Import XLSX File to Staging Table.Paths[Excel Source Output]"
+          TopLeft="440,157">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="66.5,60"
+              Start="0,0"
+              End="66.5,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,26" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,26"
+                    Point2="0,30"
+                    Point3="4,30" />
+                  <mssgle:LineSegment
+                    End="62.5,30" />
+                  <mssgle:CubicBezierSegment
+                    Point1="62.5,30"
+                    Point2="66.5,30"
+                    Point3="66.5,34" />
+                  <mssgle:LineSegment
+                    End="66.5,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Foreach Loop Container 1\Import XLSX File to Staging Table.Paths[Data Conversion Output]"
+          TopLeft="506.5,259">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="10,91"
+              Start="0,0"
+              End="10,83.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,41.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,41.5"
+                    Point2="0,45.5"
+                    Point3="4,45.5" />
+                  <mssgle:LineSegment
+                    End="6,45.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="6,45.5"
+                    Point2="10,45.5"
+                    Point3="10,49.5" />
+                  <mssgle:LineSegment
+                    End="10,83.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\Excel Source">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Foreach Loop Container 1\Import XLSX File to Staging Table\OLE DB Destination">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <TaskHost
+    design-time-name="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="179,42"
+          Id="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Destination"
+          TopLeft="382,201" />
+        <NodeLayout
+          Size="159,42"
+          Id="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Source"
+          TopLeft="392,103" />
+        <EdgeLayout
+          Id="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table.Paths[OLE DB Source Output]"
+          TopLeft="471.5,145">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,56"
+              Start="0,0"
+              End="0,48.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,48.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Destination">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Foreach Loop Container 1\Importing Staging Table to Fact Table\OLE DB Source">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>
