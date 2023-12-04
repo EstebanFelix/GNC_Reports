@@ -1,4 +1,4 @@
-# Gmail Attachment Downloader
+# GNC SQL_Data/Dashboard
 
 A versatile R script for automating the download, processing, and organization of email attachments from a Gmail account.
 
@@ -15,8 +15,22 @@ A versatile R script for automating the download, processing, and organization o
 
 ## Introduction
 
-The ThursdayReport R script is run each Thursday thanks to a .bat file. This scripts identifies the last email, inside the specified email account, that matches with the subject and sender criterias, it then downloads all the files attached, cleans and transforms them, once it finish it saves them in the specified folder with a custom name, if there is any other file with the same name it overwrites them.
-The dailyTransaction R script is run daily thanks to a .bat file. This script extract the data from the attached file and it saves to specific folder and it overwrites the data from 3 days before.
+## Automated Reporting Workflow
+
+### ThursdayReport R Script
+
+The `ThursdayReport` R script is scheduled to run every Thursday via a .bat file. This script identifies the latest email within the specified email account, meeting specific subject and sender criteria. It then downloads all attached files, performs cleaning and transformation processes, and finally saves the processed data to a designated folder with a custom name. If there are existing files with the same name, the script overwrites them.
+
+### DailyTransaction R Script
+
+The `DailyTransaction` R script runs daily, triggered by a .bat file. It extracts data from attached files and saves it to a specific folder, overwriting data from three days prior.
+
+### SQL Server Integration Services (.dtsx)
+
+The `.dtsx` script plays a crucial role in updating and uploading data to the SQL server of the brand thorugh a staging tables proccess. The data loaded into the server is automatically processed thanks to the previously mentioned R scripts, ensuring seamless integration with the corporate data source and maintaining data integrity.
+
+These automated scripts collectively create an efficient workflow, enabling regular data processing, transformation, and update tasks with minimal manual intervention.
+
 
 ## Features
 
