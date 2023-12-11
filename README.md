@@ -89,10 +89,3 @@ Before using the script, ensure you have the following installed:
 - **attachments**: Folder to store downloaded attachments.
 - **folder1, folder2, folder3**: Destination folders for different types of reports.
 
-## Contributing
-
-Contributions are welcome! If you have any suggestions, feature requests, or find a bug, please open an issue or create a pull request.
-
-## License
-
-This project is licensed under the [MIT License](LICENSE).
